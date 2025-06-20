@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import LandingMain from "@/Components/LandingMainBanner";
-import LandingMainNavbar from "@/Components/LandingMainNavbar";
-import LandingFooter from "@/Components/LandingFooter";
+import LandingMain from "@/Components/Landing/LandingMainBanner";
+import LandingMainNavbar from "@/Components/Landing/LandingMainNavbar";
+import LandingFooter from "@/Components/Landing/LandingFooter";
 import LandingBackAnimation from "@/Animations/LandingBackAnimation";
 
 const LandingPage = () => (
