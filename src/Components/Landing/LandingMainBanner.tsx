@@ -15,7 +15,7 @@ const LandingMain = () => {
         </p>
 
         {/* Code Banner */}
-        <div className="banner flex gap-5 bg-black rounded-2xl p-4 justify-around mt-10 mb-10">
+        <div className="banner flex flex-wrap gap-5 bg-black rounded-2xl p-4 justify-around mt-10 mb-10">
           <div className="text-left space-y-3 max-w-md">
             <p className="text-lg text-gray-300 bg-zinc-900 rounded-md w-full">
               👋 Welcome to, <span className="font-bold">Snippetix</span>
