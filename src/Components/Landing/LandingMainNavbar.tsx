@@ -5,7 +5,7 @@ import { deepOrange } from '@mui/material/colors';
 import { motion } from 'framer-motion';
 import { BrainCircuitIcon, CodeSquare, LucideNewspaper, StarsIcon } from 'lucide-react';
 import Image from 'next/image';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 const LandingMainNavbar = ({ isDashboard }: { isDashboard?: boolean }) => {

@@ -1,6 +1,8 @@
 'use client'
 import CodeBackground from "@/Components/Authentication/CodeBackground";
 import { motion } from 'framer-motion'
+import Image from 'next/image'
+
 
 export default function LoginPage() {
   return (
@@ -12,13 +14,13 @@ export default function LoginPage() {
         animate={{ opacity: 1, filter: 'blur(0px)' }}
         transition={{ duration: 1 }}
         className="z-10 bg-[#ffffae14]/80 border-2 border-black backdrop-blur-lg p-10 rounded-xl shadow-xl w-full max-w-md text-white">
-          <div className="heading flex justify-start mb-8 items-center gap-3">
-            <img src="/Logo.png" alt="" className="w-12 h-12" />
-            <div className="text_heading">
+        <div className="heading flex justify-start mb-8 items-center gap-3">
+          <Image src="/Logo.png" alt="Logo" width={48} height={48} className="w-12 h-12" />
+          <div className="text_heading">
             <p className="font-bold text-2xl">Snippetix</p>
             <p className=" text-zinc-600">If Already Have an Account.</p>
           </div>
-          </div>
+        </div>
         <h2 className="text-3xl font-bold mb-6 text-center font-mono">Login</h2>
 
         <form className="space-y-4">
