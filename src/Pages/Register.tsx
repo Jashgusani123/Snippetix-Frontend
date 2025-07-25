@@ -23,7 +23,7 @@ export default function RegisterPage() {
         <h2 className="text-3xl font-bold mb-6 text-center font-mono">Registration</h2>
 
         <form className="space-y-4">
-            <input
+          <input
             type="text"
             placeholder="Full Name"
             className="w-full p-3 bg-[#1a1a1a] rounded-lg border border-[#2a2a2a] focus:outline-none"
