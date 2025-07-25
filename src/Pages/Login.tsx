@@ -17,8 +17,7 @@ export default function LoginPage() {
             <div className="text_heading">
             <p className="font-bold text-2xl">Snippetix</p>
             <p className=" text-zinc-600">If Already Have an Account.</p>
-
-            </div>
+          </div>
           </div>
         <h2 className="text-3xl font-bold mb-6 text-center font-mono">Login</h2>
 
