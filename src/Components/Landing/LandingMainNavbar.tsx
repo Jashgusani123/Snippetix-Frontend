@@ -117,7 +117,10 @@ const LandingMainNavbar = ({ isDashboard }: { isDashboard?: boolean }) => {
                                     >
                                         <button
                                             className={"w-full text-white flex flex-col items-center gap-1 transition duration-200 cursor-pointer" + (isSelected ? " bg-amber-300 text-black rounded-xl shadow-md px-4 py-2" : "")}
-                                            onClick={() => route.push(item.path)}
+                                            onClick={() => { 
+                                                route.push(item.path)
+                                                setSelectedMenu(item.label)
+                                            }}
                                         >
                                             {item.icon}
                                             <span className="text-sm font-medium">{item.label}</span>
