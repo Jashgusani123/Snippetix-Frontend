@@ -23,7 +23,7 @@ const LandingMainNavbar = ({ isDashboard }: { isDashboard?: boolean }) => {
         {
             label: 'Smart Search',
             icon: <StarsIcon size={20} color="#3B82F6" />, // blue
-            path: '/user/profile',
+            path: '/user/smart_search',
         },
         {
             label: 'AI Explanations',
