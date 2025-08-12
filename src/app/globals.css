@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+
 body,
 html {
   height: 100%;
@@ -35,6 +36,10 @@ html {
   /* Chrome/Safari */
 }
 
+::-webkit-scrollbar {
+  display: none;
+  /* Chrome/Safari */
+}
 
 @keyframes scroll-x {
   0% {
@@ -58,4 +63,59 @@ html {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+.masonry-layout {
+  column-count: 3; /* adjust for screen size with media queries */
+  column-gap: 1.5rem;
+}
+
+.masonry-item {
+  break-inside: avoid;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .masonry-layout {
+    column-count: 2;
+  }
+}
+
+@media (min-width: 1024px) {
+  .masonry-layout {
+    column-count: 3;
+  }
+}
+
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+.animate-blink {
+  animation: blink 1s infinite steps(1, start);
+}
+.delay-200 {
+  animation-delay: 0.2s;
+}
+
+.delay-400 {
+  animation-delay: 0.4s;
+}
+.poppins-regular {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.poppins-bold {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-style: normal;
 }

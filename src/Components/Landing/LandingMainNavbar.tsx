@@ -3,37 +3,48 @@
 import { Avatar } from '@mui/material';
 import { deepOrange } from '@mui/material/colors';
 import { motion } from 'framer-motion';
-import { BrainCircuitIcon, CodeSquare, LucideNewspaper, StarsIcon } from 'lucide-react';
+import { BrainCircuitIcon, CodeSquare, LayoutDashboardIcon, LucideNewspaper, StarsIcon } from 'lucide-react';
+// import { TbBrandFeedly } from "react-icons/tb";
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
-const LandingMainNavbar = ({ isDashboard }: { isDashboard?: boolean }) => {
+const LandingMainNavbar = ({ isDashboard, setStep , isProblemDetails }: { isDashboard?: boolean, setStep?: (step: number) => void , isProblemDetails?:boolean}) => {
     const route = useRouter();
     const [menuOpen, setMenuOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
-    const [selectedMenu, setSelectedMenu] = useState('News & Reports');
+    const [selectedMenu, setSelectedMenu] = useState('Developer Feed');
 
     const menuItems = [
+        {
+            label: 'Developer Feed',
+            icon: <LayoutDashboardIcon size={20} color="#F57F0B" />,
+            path: '/user/dashboard',
+            number: 0
+        },
         {
             label: 'News & Reports',
             icon: <LucideNewspaper size={20} color="#10B981" />, // emerald
             path: '/user/dashboard',
+            number: 1
         },
         {
             label: 'Smart Search',
             icon: <StarsIcon size={20} color="#3B82F6" />, // blue
-            path: '/user/smart_search',
+            path: '/user/dashboard',
+            number: 2
         },
         {
             label: 'AI Explanations',
             icon: <BrainCircuitIcon size={20} color="#8B5CF6" />, // purple
-            path: '/user/settings',
+            path: '/user/dashboard',
+            number: 3
         },
         {
             label: 'Practice',
             icon: <CodeSquare size={20} color="#F59E0B" />, // amber
-            path: '/user/settings',
+            path: '/user/dashboard',
+            number: 4
         },
     ];
 
@@ -69,9 +80,9 @@ const LandingMainNavbar = ({ isDashboard }: { isDashboard?: boolean }) => {
                         className="rounded"
                         priority
                     />
-                    <h1 className="text-2xl font-bold text-white">Snippetix</h1>
+                    <h1 className="text-2xl font-bold text-white cursor-pointer" onClick={()=>route.replace("/")}>Snippetix</h1>
                 </div>
-                {!isDashboard && (
+                {!isDashboard && !isProblemDetails && (
                     <button
                         className="bg-zinc-800 cursor-pointer hover:scale-105 transition text-white px-4 py-2 rounded"
                         onClick={() => route.push('user/dashboard')}
@@ -95,6 +106,19 @@ const LandingMainNavbar = ({ isDashboard }: { isDashboard?: boolean }) => {
 
                     </>
                 )}
+            {isProblemDetails && !isDashboard && (
+                    <>
+                        <div className="dashboard_option flex justify-around items-center gap-4 w-40">
+                            <button
+                                className="bg-zinc-800 cursor-pointer hover:scale-105 transition text-white px-4 py-2 rounded"
+                                onClick={() => route.replace("/user/dashboard")}
+                            >
+                                Problems List
+                            </button>
+                        </div>
+
+                    </>
+                )}
             </div>
 
             {menuOpen && (
@@ -106,7 +130,7 @@ const LandingMainNavbar = ({ isDashboard }: { isDashboard?: boolean }) => {
                         transition={{ duration: 0.4 }}
                         className="absolute bottom-10 bg-[#0000007e] shadow-lg rounded-lg p-6 z-50 backdrop-blur-sm"
                     >
-                        <ul className="flex justify-evenly items-center flex-wrap gap-10">
+                        <ul className="flex justify-start items-center flex-nowrap gap-4 overflow-x-auto scrollbar-hide md:gap-10">
                             {menuItems.map((item, index) => {
                                 const isSelected = selectedMenu === item.label;
                                 return (
@@ -114,21 +138,27 @@ const LandingMainNavbar = ({ isDashboard }: { isDashboard?: boolean }) => {
                                         key={index}
                                         whileHover={{ scale: 1.1 }}
                                         transition={{ type: 'spring', stiffness: 300 }}
+                                        className="shrink-0"
                                     >
                                         <button
-                                            className={"w-full text-white flex flex-col items-center gap-1 transition duration-200 cursor-pointer" + (isSelected ? " bg-amber-300 text-black rounded-xl shadow-md px-4 py-2" : "")}
-                                            onClick={() => { 
-                                                route.push(item.path)
+                                            className={
+                                                "w-full flex flex-col items-center gap-0.5 transition duration-200 cursor-pointer text-white text-xs sm:text-sm" +
+                                                (isSelected ? " bg-amber-300 text-black rounded-xl shadow-md px-2 py-1" : "")
+                                            }
+                                            onClick={() => {
                                                 setSelectedMenu(item.label)
+                                                setStep?.(item.number)
                                             }}
                                         >
-                                            {item.icon}
-                                            <span className="text-sm font-medium">{item.label}</span>
+                                            <div className="sm:scale-100 scale-90">{item.icon}</div>
+                                            <span className="font-medium">{item.label}</span>
                                         </button>
                                     </motion.li>
                                 )
                             })}
                         </ul>
+
+
                     </motion.div>
                 </div>
             )}
@@ -140,6 +170,16 @@ const LandingMainNavbar = ({ isDashboard }: { isDashboard?: boolean }) => {
                     -webkit-text-fill-color: transparent;
                 }
             `}</style>
+            <style jsx global>{`
+    /* Hide scrollbar but keep scrolling */
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+    .scrollbar-hide {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+    }
+`}</style>
         </>
     );
 };

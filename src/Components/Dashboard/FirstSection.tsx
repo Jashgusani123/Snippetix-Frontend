@@ -28,7 +28,8 @@ const FirstSection = () => {
                 </div>
 
                 {/* News & Report grid */}
-                <div className="new_and_report grid grid-cols-2 gap-3 mt-10 ">
+                <div className="new_and_report grid grid-cols-1 md:grid-cols-2 gap-3 mt-10">
+
                     {/* Left: News */}
                     <section className="bg-[#0000005f] rounded-xl p-6 text-white shadow-lg">
                         <h2 className="text-2xl font-bold flex mb-3 justify-start items-center gap-3 "><Avatar style={{ backgroundColor: pink[500] }}>
