@@ -1,11 +1,8 @@
 "use client";
 
 import { getReports, getVideos } from "@/APIs/GetAPI";
-import { Avatar } from "@mui/material";
 import { motion } from "framer-motion";
-import { NewspaperIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-import Image from "next/image";
 
 // Shared base type
 interface BaseItem {
