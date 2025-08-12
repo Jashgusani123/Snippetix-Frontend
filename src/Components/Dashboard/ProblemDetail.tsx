@@ -38,12 +38,17 @@ export default function ProblemDetail({ problemId }: { problemId: string }) {
 
     const runCode = () => {
         try {
-            const result = new Function(code)();
-            setOutput(String(result));
-        } catch (err: any) {
+          const result = new Function(code)();
+          setOutput(String(result));
+        } catch (err: unknown) {
+          if (err instanceof Error) {
             setOutput(err.message);
+          } else {
+            setOutput(String(err));
+          }
         }
-    };
+      };
+      
     const handleCommentLike = (index: number) => {
         setCommentReactions((prev) =>
             prev.map((r, i) =>
