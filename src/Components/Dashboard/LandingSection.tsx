@@ -41,13 +41,20 @@ const LandingSection = () => {
     Promise.all([getVideos(), getReports({ lan: "python" })])
       .then(([videos, reports]) => {
         const merged: FeedItem[] = [...videos, ...reports];
-
+  
+        // Optional: sort by date first to keep it recent
         merged.sort((a, b) => {
           const dateA = new Date(a.publishedAt ?? 0).getTime();
           const dateB = new Date(b.publishedAt ?? 0).getTime();
           return dateB - dateA;
         });
-
+  
+        // Then shuffle slightly to mix types
+        for (let i = merged.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [merged[i], merged[j]] = [merged[j], merged[i]];
+        }
+  
         setContent(merged);
         setLoading(false);
       })
@@ -90,51 +97,80 @@ const LandingSection = () => {
           </div>
         </div>
       ) : (
-        <div className="masonry-layout px-0 sm:px-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="columns-1 sm:columns-2 lg:columns-3 gap-4">
           {content.map((item, index) => (
             <motion.a
               key={index}
               href={item.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-[#111111] hover:bg-[#1f1f1f] rounded-2xl p-3 sm:p-4 h-fit text-white shadow-lg transition duration-200 block"
+              className="bg-[#111111] hover:bg-[#1f1f1f] rounded-2xl p-3 sm:p-4 mb-4 break-inside-avoid text-white shadow-lg transition duration-200 block"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: index * 0.05, duration: 0.4 }}
             >
               {item.type === "video" || item.type === "short" ? (
-                <div
-                  className={`w-full overflow-hidden rounded-lg mb-3 ${item.type === "short" ? "aspect-[9/16]" : "aspect-video"}`}
-                >
-                  <img
-                    src={item.thumbnail}
-                    alt={item.title}
-                    className="object-cover w-full h-full"
-                  />
-                </div>
+                <>
+                  <div
+                    className={`w-full overflow-hidden rounded-lg mb-3 ${item.type === "short" ? "aspect-[9/16]" : "aspect-video"}`}
+                  >
+                    <img
+                      src={item.thumbnail}
+                      alt={item.title}
+                      className="object-cover w-full h-full"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="text-sm sm:text-base font-semibold mb-1">
+                      {item.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-gray-400">
+                      {item.type === "short" ? "YouTube Short" : "YouTube Video"}
+                    </p>
+                  </div>
+                </>
               ) : (
                 (() => {
                   const report = item as ReportItem;
                   return (
                     <>
                       {report.coverImage && (
-                        <div className="w-full overflow-hidden rounded-lg mb-3 aspect-video">
-                          <img
-                            src={report.coverImage}
-                            alt={report.title}
-                            className="object-cover w-full h-full"
-                          />
+                        <div className="w-full overflow-hidden rounded-lg aspect-video mb-3">
+                          <img src={report.coverImage} alt="Image" className="object-cover w-full h-full" />
                         </div>
                       )}
-                      {/* ... rest of report rendering */}
+                      <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+                        {report.authorImage ? (
+                          <Avatar src={report.authorImage} />
+                        ) : (
+                          <Avatar>
+                            <NewspaperIcon size={20} />
+                          </Avatar>
+                        )}
+                        <div className="flex-1">
+                          <h3 className="text-xs  font-semibold mb-1">
+                            {report.title}
+                          </h3>
+                          <p className="text-xs sm:text-sm text-gray-400">
+                            {report.author ? `By ${report.author}` : "Developer Report"}
+                          </p>
+                          <p className="text-xs text-gray-500 mt-1">
+                            {report.publishedAt}
+                          </p>
+                        </div>
+                        <p className="text-xs sm:text-sm text-gray-400">
+                          Report
+                        </p>
+                      </div>
                     </>
                   );
                 })()
               )}
-
             </motion.a>
           ))}
         </div>
+
       )}
     </main>
   );

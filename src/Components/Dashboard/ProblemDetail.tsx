@@ -123,7 +123,7 @@ export default function ProblemDetail({ problemId }: { problemId: string }) {
             </div>
 
             {/* Comments Section */}
-            <h2 className="text-lg font-bold mb-2 text-white">Comments</h2>
+            <h2 className="text-lg font-bold mb-2 text-white underline">Comments:</h2>
             <div className="p-4 rounded-lg h-full flex justify-start flex-wrap w-full gap-4">
                 {Comments.map((comment, index) => {
                     const { liked, disliked } = commentReactions[index];
