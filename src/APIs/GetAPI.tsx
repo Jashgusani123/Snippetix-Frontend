@@ -41,13 +41,20 @@ export const getVideos = async (): Promise<VideoItem[]> => {
     );
     const data: { items: YouTubeItem[] } = await res.json();
 
+    // console.log("🔍 Search API full response:", data);
+
     const videoIds = data.items.map((item) => item.id.videoId).join(",");
 
     // Second call: get duration
     const detailsRes = await fetch(
       `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${videoIds}&key=${apiKey}`
+      // `https://www.googleapis.com/youtube/v3/captions?part=snippet&id=${videoIds}&key=${apiKey}`
+      // `https://www.googleapis.com/youtube/v3/captions?part=snippet&videoId=E3oG313_kps&key=${apiKey}`
+      // `https://www.googleapis.com/youtube/v3/captions/AUieDabLPE2M-LZ-iAVz0m7Axq9obeAMdaPmo2_THBUNk1DWLaw&key=${apiKey}`
     );
     const detailsData: { items: YouTubeVideoDetails[] } = await detailsRes.json();
+
+    // console.log("⏱️ Videos API full response:", detailsData);
 
     return data.items.map((item, index) => {
       const duration = detailsData.items[index]?.contentDetails?.duration || "";
@@ -67,6 +74,7 @@ export const getVideos = async (): Promise<VideoItem[]> => {
     return [];
   }
 };
+
 
 function parseYouTubeDuration(duration: string) {
   const match = duration.match(/PT(?:(\d+)M)?(?:(\d+)S)?/);
@@ -89,10 +97,16 @@ interface DevToItem {
   tag_list?: string[];
 }
 
-export const getReports = async ({ lan }: { lan: string }) => {
+export const getReports = async ({
+  lan,
+  page = 1,
+}: {
+  lan: string;
+  page?: number;
+}) => {
   try {
     const res = await fetch(
-      `https://dev.to/api/articles?tag=${lan}&per_page=8`
+      `https://dev.to/api/articles?tag=${lan}&per_page=8&page=${page}`
     );
     if (!res.ok) {
       throw new Error(`Dev.to API error: ${res.status}`);
@@ -115,3 +129,37 @@ export const getReports = async ({ lan }: { lan: string }) => {
     return [];
   }
 };
+
+
+interface NewsData {
+  status: string,
+  totalResults: number,
+  articles: 
+    {
+      title: string,
+      description: string
+    }[]
+  
+}
+
+export const getNews = async ({ query }: { query: string }) => {
+  const apiKey =  process.env.NEXT_PUBLIC_API_KEY_FOR_NEWS
+  try {
+    const res = await fetch(
+      `https://newsapi.org/v2/everything?q=${query}&sortBy=publishedAt&apiKey=${apiKey}`
+    );
+    if (!res.ok) {
+      throw new Error(`Dev.to API error: ${res.status}`);
+    }
+    const data: NewsData = await res.json();
+
+    return data.articles.slice(0, 5).map((item) => ({
+      type: "report" as const,
+      title: item.title,
+      description: item.description,
+    }));
+  } catch (err) {
+    console.error("Error fetching reports:", err);
+    return [];
+  }
+}
